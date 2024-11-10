@@ -8,6 +8,9 @@ Created on Sun 2024 Nov 10
 import kagglehub
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 ## nltk stays for "natual language toolkit"
 ###  it is a well known package
 ##  when it comes to deal with natural la language in python
@@ -59,4 +62,12 @@ reviews_df['sentiment_score'][0:10]
 # Classify sentiment based on the compound score
 reviews_df['sentiment_category'] = reviews_df['sentiment_score'].apply(lambda score: 'Positive' if score > 0.05 else ('Negative' if score < -0.05 else 'Neutral'))
 
-reviews_df[reviews_df['sentiment_category'] =='Negative'].head(5)
+ 
+
+# Histogram of sentiment scores
+plt.figure(figsize=(10,6))
+sns.histplot(reviews_df['sentiment_score'], bins=50, kde=True, color='blue')
+plt.title('Distribution of Sentiment Scores')
+plt.xlabel('Sentiment Score')
+plt.ylabel('Frequency')
+plt.show()
