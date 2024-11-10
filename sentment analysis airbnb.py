@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Nov  6 07:55:20 2024
+Created on Sun 2024 Nov 10
 
 @author: e.nuzzo
 """
@@ -8,21 +8,20 @@ Created on Wed Nov  6 07:55:20 2024
 import kagglehub
 import os
 import pandas as pd
+## nltk stays for "natual language toolkit"
+###  it is a well known package
+##  when it comes to deal with natural la language in python
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-# Download latest version
+# Download latest version of the dataset I am using from kaggle
 path = kagglehub.dataset_download("swsw1717/seatle-airbnb-open-data-sql-project")
-type(path)
-print("Path to dataset files:", path)
 
-# Verifica i file presenti nella cartella scaricata
-print(os.listdir(path))
 
 calendar_path = os.path.join(path, 'calendar.csv') 
 listings_path = os.path.join(path, 'listings.csv') 
 reviews_path = os.path.join(path, 'reviews.csv') 
  
-# Carica il CSV in un DataFrame Pandas
+# import csv files into Pandas Dataframes
 calendar_df = pd.read_csv(calendar_path)
 listings_df = pd.read_csv(listings_path)
 reviews_df = pd.read_csv(reviews_path)
@@ -35,13 +34,20 @@ Bird, Steven, Edward Loper and Ewan Klein (2009), Natural Language Processing wi
 """   
  
 
-# Download VADER lexicon
+# Download VADER lexicon for sentiment analysis
+# The VADER lexicon is a pre-built sentiment dictionary specifically designed for analyzing 
+# social media content and short text, which includes informal language, emoticons, and slang. 
+# It calculates sentiment scores based on the words' polarity and context (e.g., negations or intensifiers).
+nltk.download('vader_lexicon')
+sid = SentimentIntensityAnalyzer()
 nltk.download('vader_lexicon')
 sid = SentimentIntensityAnalyzer()
  
 
 # Apply VADER to each comment
 # Fill NaN values in the comments column with an empty string
+## if we do not, we will get an error when we are going to validate 
+
 reviews_df['comments'] = reviews_df['comments'].fillna('')
 
 # Apply VADER sentiment analysis
